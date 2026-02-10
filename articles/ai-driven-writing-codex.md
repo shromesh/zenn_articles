@@ -5,53 +5,33 @@ type: "idea"
 topics: ["zenn", "cli", "codex"]
 published: true
 ---
-「Zenn CLI + CodexでAI駆動執筆はじめました」というノリで、no reviewでAIが書いたものをそのまま上げてみるテスト投稿です。とはいえ内容は真面目に、Zenn CLI の導入と最初の一歩をざっくりまとめます。
+「Zenn CLI + CodexでAI駆動執筆はじめました」というノリで、no reviewでAIが書いたものをそのまま上げてみるテスト投稿です。ここからは、AIと人が二人三脚で Zenn 記事を量産するための流れを 6 ステップでまとめます。
 
-## Zenn CLIとは
-Zenn と GitHub リポジトリを連携すると、ローカルの好きなエディターで記事や本を管理できます。そのときの裏方を担うのがオープンソースの Zenn CLI で、Markdown ファイルの生成やプレビュー、デプロイまでワークフローを整えてくれる相棒です。
-
-## 導入手順
-### 1. 事前準備
-- Zenn と GitHub を連携して、同期先のリポジトリを用意しておくとスムーズ。
-- Node.js は 14 以上が必須。古い環境(v12 など)では動かないので、まずは Node.js を更新しましょう。
-
-### 2. CLI をインストールする
-プロジェクトディレクトリで npm を初期化し、Zenn CLI を依存関係に追加します。
+## 1. Zenn CLI をインストールする
+Node.js 14+ を入れたら、リポジトリ直下で npm を初期化し Zenn CLI を導入します。
 
 ```bash
 npm init --yes
 npm install zenn-cli
-```
-
-### 3. Zenn 用セットアップ
-続けて初期設定を実行すると、`articles/` や `books/` フォルダ、README などが生成されます。
-
-```bash
 npx zenn init
 ```
 
-ここまででひとまず導入完了。Node v15 系でも動作報告が出ていますし、`npx zenn init` が動かない場合は `npm install zenn-cli` を事前に実行したかを確認しましょう。グローバルインストール(`npm install -g zenn-cli`)でも問題ありません。
+`init` で `articles/` `books/` などが揃い、準備が完了します。アップデートや不具合対応が入ったら `npm install zenn-cli@latest` で追従しましょう。
 
-## CLI をアップデートする
-CLI の表示が zenn.dev と食い違う、あるいはアップデート通知が出た場合は次のコマンドで最新版を取得。
+## 2. Zenn と GitHub アカウントを連携する
+Zenn のダッシュボードで GitHub リポジトリを紐付けると、push したタイミングで自動配信されます。進捗やエラーは `https://zenn.dev/dashboard/deploys` から確認できるので、公開後のモニタリングにも便利です。
 
-```bash
-npm install zenn-cli@latest
-```
+## 3. 既存記事をエクスポートしてローカルに置く
+ダッシュボードから既存記事をエクスポートし、`articles/slug.md` として保存すれば、過去記事もローカル編集できます。Front Matter の `slug` がズレないよう注意しつつ、Zenn CLI で `npx zenn preview` を走らせれば差分確認もラクです。
 
-依存パッケージの警告や `npm audit` のメッセージは、現時点では深刻な問題ではないと公式が案内しています。
+## 4. AGENTS.md を用意する
+今回のように Codex に執筆を任せるなら、プロジェクトのルールやワークフローを `AGENTS.md` にまとめておくのが吉。記事の配置ルールや公開方法、プレビュー手順などを共有しておけば、AI エージェントが迷わず作業できます。
 
-## コンテンツを作成・編集する
-- 記事: `npx zenn new:article --slug your-slug --title "タイトル"`
-- 本: `npx zenn new:book`
-- プレビュー: `npx zenn preview` (必要なら `--port 3000` や `--no-watch`)
+## 5. 「新しい記事を書きたい・レビューしたい」など要望を伝える
+記事のテーマや書き出し、レビューの有無、公開タイミングなどを具体的に指示すると、AI が文脈を掴んだ上でドラフトを生成してくれます。必要なら `published_at` を指定した予約公開もこの時点で決めておきましょう。
 
-プレビューはコマンドを実行したターミナルを占有するので、終了させるか別ウィンドウで作業しましょう。リモート環境でプレビューする場合は、ポートフォワードや code-server などの構成に応じて `localhost` へ接続できるように設定が必要です。
+## 6. Codex が執筆し、commit/push まで自動化
+指示が揃えば Codex が `npx zenn new:article` でファイルを作り、本文を執筆し、`git commit` と `git push` まで実施。Zenn 側の連携が済んでいれば、そのままデプロイが走り公開完了です。あとは `npx zenn preview` でローカル確認しながら、気になる点があれば追記・修正して再 push するだけ。
 
-## よくあるハマりどころ
-- Windows で `npm install zenn-cli` が Git を探せず失敗するケースは、Git for Windows を入れるか、CLI の最新版で解消されていることを確認。
-- `npx zenn preview` で `.next` ディレクトリを見つけられないエラーは、`npm install zenn-cli@latest` で修正済み。
-- port 表示が `http://localhost:80` のままになる VS Code バグ報告もありましたが、実際は指定ポートで表示されるので気にしなくて OK。
-
-## まとめ
-AI が骨子を作り、人間が内容を整える時代になったので、ローカルに Zenn CLI を入れておけばすぐに記事を書いてプレビューして公開できます。デプロイは GitHub に push するだけ。もしスケジュール公開したいなら Front Matter に `published_at` を追加するのもお忘れなく。
+---
+以上、AI 駆動で Zenn 記事を量産するためのシンプルな 6 ステップでした。これで「書きたい」と思った瞬間に Codex へ投げれば、レビューなしのラフな記事でもサクッと公開できます。
