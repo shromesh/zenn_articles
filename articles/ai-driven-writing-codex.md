@@ -33,7 +33,7 @@ npx zenn init
 Zenn のダッシュボードで [GitHub リポジトリを紐付け](https://zenn.dev/dashboard/deploys)ます。
 
 ## 3. 既存記事をエクスポートしてローカルに置く
-ダッシュボードから[既存記事をエクスポート](https://zenn.dev/settings/export)し、`articles/slug.md` として保存すれば、過去記事もローカル編集できます。Front Matter の `slug` がズレないよう注意しつつ、Zenn CLI で `npx zenn preview` を走らせれば差分確認もラクです。
+ダッシュボードから[既存記事をエクスポート](https://zenn.dev/settings/export)し、`articles/` や `books/` の配下に置きます。
 
 ## 4. AGENTS.md を用意する
 今回のように Codex に執筆を任せるなら、プロジェクトのルールやワークフローを `AGENTS.md` にまとめておくのが吉。記事の配置ルールや公開方法、プレビュー手順などを共有しておけば、AI エージェントが迷わず作業できます。以下は今回貼り付けた実例です。
