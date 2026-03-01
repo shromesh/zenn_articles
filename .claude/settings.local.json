@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx zenn:*)",
+      "Bash(git -C /Users/ryoma/zenn_articles log --oneline -5)",
+      "Bash(git -C /Users/ryoma/zenn_articles add:*)",
+      "Bash(git -C:*)",
+      "Bash(git -C /Users/ryoma/zenn_articles push)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh api:*)",
+      "Bash(gh search:*)",
+      "WebSearch"
+    ]
+  }
+}
